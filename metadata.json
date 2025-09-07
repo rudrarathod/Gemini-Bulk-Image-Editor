@@ -1,0 +1,5 @@
+{
+  "name": "Gemini Bulk Image Editor",
+  "description": "An AI-powered bulk image editor that uses the Gemini API's 'nano banana' model to apply consistent edits across multiple images based on a single text prompt.",
+  "requestFramePermissions": []
+}
