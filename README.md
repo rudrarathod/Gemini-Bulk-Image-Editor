@@ -44,7 +44,7 @@ An AI-powered web application that uses the Google Gemini API to apply consisten
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/your-username/gemini-bulk-image-editor.git
+    git clone https://github.com/rudrarathod/gemini-bulk-image-editor.git
     cd gemini-bulk-image-editor
     ```
 
