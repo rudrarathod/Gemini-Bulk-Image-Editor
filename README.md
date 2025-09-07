@@ -2,6 +2,16 @@
 
 An AI-powered web application that uses the Google Gemini API to apply consistent, creative edits to multiple images simultaneously based on a single natural language prompt.
 
+---
+
+## 🚀 Live Demo
+
+You can try the Gemini Bulk Image Editor live in your browser:
+
+**[➡️ Try it Live!](https://ai.studio/apps/drive/1KJe-8nvTv3LUrlls_tjLguOq09OpuQZf)**
+
+---
+
 ## ✨ Core Features
 
 *   **Batch Processing**: Upload multiple images and apply the same edit to all of them with a single click.
@@ -11,15 +21,6 @@ An AI-powered web application that uses the Google Gemini API to apply consisten
 *   **Download Options**: Download individual edited images or save them all at once with the "Download All" button.
 *   **Robust & Responsive UI**: A clean, modern interface built with Tailwind CSS that works seamlessly on all screen sizes.
 *   **Smart Error Handling**: The app processes images sequentially to respect API rate limits and displays clear, user-friendly error messages if an image fails.
-
----
-
-## 🚀 How It Works
-
-1.  **Upload Images**: Click the upload area to select multiple image files from your device.
-2.  **Write an Instruction**: In the text box, describe the edit you want to apply (e.g., "Add a pirate hat to each person," "Make it look like a vintage photograph," or "Change the season to winter").
-3.  **Apply Edits**: Click the "Apply Edits" button to start the processing queue. You can watch the progress in real-time.
-4.  **Review & Download**: Use the slider on each image card to compare the original with the edited version. Download the images you like individually or all at once.
 
 ---
 
