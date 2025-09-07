@@ -2,9 +2,6 @@
 
 An AI-powered web application that uses the Google Gemini API to apply consistent, creative edits to multiple images simultaneously based on a single natural language prompt.
 
-![Gemini Bulk Image Editor Screenshot](https://storage.googleapis.com/aistudio-project-images/2e9a2249-5f25-4c62-bb44-672ceb5860d5.png)
-**TRY**: [AI Studio]([https://reactjs.org/](https://ai.studio/apps/drive/1KJe-8nvTv3LUrlls_tjLguOq09OpuQZf)).
-
 ## ✨ Core Features
 
 *   **Batch Processing**: Upload multiple images and apply the same edit to all of them with a single click.
