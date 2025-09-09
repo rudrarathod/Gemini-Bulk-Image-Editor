@@ -1,10 +1,11 @@
-
 import React, { useState } from 'react';
 import { ImageResult } from '../types';
 import { DownloadIcon } from './icons/DownloadIcon';
+import { RedoIcon } from './icons/RedoIcon';
 
 interface ImageResultCardProps {
   result: ImageResult;
+  onRedo: (id: string) => void;
 }
 
 const ImageComparator: React.FC<{ original: string; edited: string }> = ({ original, edited }) => {
@@ -57,7 +58,7 @@ const ImageComparator: React.FC<{ original: string; edited: string }> = ({ origi
 };
 
 
-const ImageResultCard: React.FC<ImageResultCardProps> = ({ result }) => {
+const ImageResultCard: React.FC<ImageResultCardProps> = ({ result, onRedo }) => {
 
   const handleDownload = () => {
     if (!result.editedUrl) return;
@@ -122,13 +123,32 @@ const ImageResultCard: React.FC<ImageResultCardProps> = ({ result }) => {
         </div>
       </div>
       <p className="text-xs text-gray-400 truncate text-center" title={result.originalFile.name}>{result.originalFile.name}</p>
+      
       {result.status === 'completed' && (
+        <div className="flex items-center gap-2">
+          <button 
+            onClick={handleDownload}
+            className="flex-1 w-full inline-flex items-center justify-center px-4 py-2 border border-gem-shadow-blue text-sm font-medium rounded-md text-gem-mint hover:bg-gem-shadow-blue/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gem-teal focus:ring-offset-gem-space-cadet transition-colors"
+          >
+            <DownloadIcon className="w-4 h-4 mr-2" />
+            Download
+          </button>
+          <button
+            onClick={() => onRedo(result.id)}
+            className="p-2 border border-gem-shadow-blue text-sm font-medium rounded-md text-gem-mint hover:bg-gem-shadow-blue/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gem-teal focus:ring-offset-gem-space-cadet transition-colors"
+            aria-label="Redo edit for this image"
+          >
+            <RedoIcon className="w-5 h-5" />
+          </button>
+        </div>
+      )}
+      {result.status === 'error' && (
         <button 
-          onClick={handleDownload}
+          onClick={() => onRedo(result.id)}
           className="w-full mt-2 inline-flex items-center justify-center px-4 py-2 border border-gem-shadow-blue text-sm font-medium rounded-md text-gem-mint hover:bg-gem-shadow-blue/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gem-teal focus:ring-offset-gem-space-cadet transition-colors"
         >
-          <DownloadIcon className="w-4 h-4 mr-2" />
-          Download
+          <RedoIcon className="w-4 h-4 mr-2" />
+          Retry
         </button>
       )}
     </div>

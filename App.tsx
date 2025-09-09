@@ -1,5 +1,4 @@
-
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef, useMemo } from 'react';
 import { ImageResult } from './types';
 import { fileToBase64 } from './utils/fileUtils';
 import { editImage } from './services/geminiService';
@@ -27,13 +26,14 @@ export default function App() {
         originalUrl: URL.createObjectURL(file),
         status: 'pending' as const,
       }));
-      setImageResults(newImageResults);
+      setImageResults(prev => [...prev, ...newImageResults]);
     }
   };
 
   const processImages = useCallback(async () => {
-    if (!prompt.trim() || imageResults.length === 0) {
-      setGlobalError('Please select images and provide an editing prompt.');
+    const pendingImages = imageResults.filter(r => r.status === 'pending');
+    if (!prompt.trim() || pendingImages.length === 0) {
+      setGlobalError('Please provide an editing prompt and ensure there are images ready to be processed.');
       return;
     }
     
@@ -47,7 +47,7 @@ export default function App() {
         break;
       }
 
-      // Only process images that are pending. Allows for reprocessing after stopping.
+      // Only process images that are pending.
       if (result.status !== 'pending') {
         continue;
       }
@@ -104,7 +104,18 @@ export default function App() {
     });
   };
 
+  const handleRedoImage = (id: string) => {
+    setImageResults(prev => 
+        prev.map(r => 
+            r.id === id 
+                ? { ...r, status: 'pending', editedUrl: undefined, error: undefined } 
+                : r
+        )
+    );
+  };
+
   const hasCompletedImages = imageResults.some(r => r.status === 'completed');
+  const pendingImagesCount = useMemo(() => imageResults.filter(r => r.status === 'pending').length, [imageResults]);
 
   return (
     <div className="min-h-screen bg-gem-deep-blue font-sans">
@@ -138,7 +149,7 @@ export default function App() {
             <div className="flex flex-col sm:flex-row gap-4">
                <button
                 onClick={isProcessing ? handleStopProcessing : processImages}
-                disabled={!isProcessing && (imageResults.length === 0 || !prompt.trim())}
+                disabled={!isProcessing && (pendingImagesCount === 0 || !prompt.trim())}
                 className={`flex-1 inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm transition-all duration-300 group
                   ${isProcessing 
                       ? 'text-white bg-red-600 hover:bg-red-700 focus:ring-red-500' 
@@ -156,7 +167,7 @@ export default function App() {
                 ) : (
                   <>
                     <SparklesIcon className="w-5 h-5 mr-2 text-gem-deep-blue group-hover:animate-pulse-fast"/>
-                    Apply Edits to {imageResults.length} Images
+                    {pendingImagesCount > 0 ? `Apply Edits to ${pendingImagesCount} Image(s)` : 'All Edits Applied'}
                   </>
                 )}
               </button>
@@ -182,7 +193,7 @@ export default function App() {
           </div>
         </div>
 
-        {imageResults.length > 0 && <ImageResultsGrid results={imageResults} />}
+        {imageResults.length > 0 && <ImageResultsGrid results={imageResults} onRedo={handleRedoImage} />}
       </main>
     </div>
   );
